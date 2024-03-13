@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Cell : MonoBehaviour
+public class Cell
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum Type //determina qué tipo de mina es:
     {
-        
+        Empty,
+        Mine,
+        Number,
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Vector3Int position; //posición en el board
+    public Type type;
+    public int number; //int que representa qué número es
+    public bool revealed;
+    public bool flagged;
+    public bool exploded;
+    public bool chorded;
 }
