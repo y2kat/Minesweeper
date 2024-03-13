@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class CellGrid
 {
+    // matriz de celdas que representa el tablero del juego
     private readonly Cell[,] cells;
 
+    // propiedades para obtener el ancho y alto del tablero
     public int Width => cells.GetLength(0);
     public int Height => cells.GetLength(1);
 
+    // indexador para acceder a una celda específica en el tablero
     public Cell this[int x, int y] => cells[x, y];
 
+    // constructor que inicializa el tablero con celdas vacías
     public CellGrid(int width, int height)
     {
         cells = new Cell[width, height];
@@ -26,6 +30,7 @@ public class CellGrid
         }
     }
 
+    // generar minas en el tablero
     public void GenerateMines(Cell startingCell, int amount)
     {
         int width = Width;
@@ -38,6 +43,7 @@ public class CellGrid
 
             Cell cell = cells[x, y];
 
+            //si la celda ya es una mina o es adyacente a la celda de inicio, busca otra celda!!!
             while (cell.type == Cell.Type.Mine || IsAdjacent(startingCell, cell))
             {
                 x++;
@@ -55,10 +61,11 @@ public class CellGrid
                 cell = cells[x, y];
             }
 
-            cell.type = Cell.Type.Mine;
+            cell.type = Cell.Type.Mine; //asigna el tipo de celda como mina
         }
     }
 
+    // método para generar los números en las celdas que indican la cantidad de minas adyacentes
     public void GenerateNumbers()
     {
         int width = Width;
@@ -70,16 +77,19 @@ public class CellGrid
             {
                 Cell cell = cells[x, y];
 
-                if (cell.type == Cell.Type.Mine) {
+                if (cell.type == Cell.Type.Mine) { //si la celda es una mina, no hace nada
                     continue;
                 }
 
+                //cuenta las minas adyacentes y asigna el número a la celda
                 cell.number = CountAdjacentMines(cell);
                 cell.type = cell.number > 0 ? Cell.Type.Number : Cell.Type.Empty;
             }
         }
     }
 
+
+    //método para contar las minas adyacentes a una celda
     public int CountAdjacentMines(Cell cell)
     {
         int count = 0;
@@ -104,6 +114,7 @@ public class CellGrid
         return count;
     }
 
+    //método para contar las banderas adyacentes a una celda
     public int CountAdjacentFlags(Cell cell)
     {
         int count = 0;
@@ -128,6 +139,7 @@ public class CellGrid
         return count;
     }
 
+    // método para obtener una celda en una posición específica
     public Cell GetCell(int x, int y)
     {
         if (InBounds(x, y)) {
@@ -137,17 +149,20 @@ public class CellGrid
         }
     }
 
+    // método para INTENTAR obtener una celda en una posición específica
     public bool TryGetCell(int x, int y, out Cell cell)
     {
         cell = GetCell(x, y);
         return cell != null;
     }
 
+    //método para verificar si una posición está dentro de los límites del tablero
     public bool InBounds(int x, int y)
     {
         return x >= 0 && x < Width && y >= 0 && y < Height;
     }
 
+    //método para verificar si dos celdas son adyacentes
     public bool IsAdjacent(Cell a, Cell b)
     {
         return Mathf.Abs(a.position.x - b.position.x) <= 1 &&
