@@ -35,6 +35,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f5708d8-cf3f-4ffa-ac9c-0a2c2ecbd811"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MiddleClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""a4caa447-ad44-4cc2-9d41-55951cc12b8b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +66,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Clicked"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0522170d-10cc-45a4-96ba-6c28031ca704"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58d0ca34-5062-4a55-8499-f6e65ddd5b96"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MiddleClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +97,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Standard
         m_Standard = asset.FindActionMap("Standard", throwIfNotFound: true);
         m_Standard_Clicked = m_Standard.FindAction("Clicked", throwIfNotFound: true);
+        m_Standard_RightClick = m_Standard.FindAction("RightClick", throwIfNotFound: true);
+        m_Standard_MiddleClick = m_Standard.FindAction("MiddleClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +161,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Standard;
     private List<IStandardActions> m_StandardActionsCallbackInterfaces = new List<IStandardActions>();
     private readonly InputAction m_Standard_Clicked;
+    private readonly InputAction m_Standard_RightClick;
+    private readonly InputAction m_Standard_MiddleClick;
     public struct StandardActions
     {
         private @PlayerInputActions m_Wrapper;
         public StandardActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Clicked => m_Wrapper.m_Standard_Clicked;
+        public InputAction @RightClick => m_Wrapper.m_Standard_RightClick;
+        public InputAction @MiddleClick => m_Wrapper.m_Standard_MiddleClick;
         public InputActionMap Get() { return m_Wrapper.m_Standard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +182,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Clicked.started += instance.OnClicked;
             @Clicked.performed += instance.OnClicked;
             @Clicked.canceled += instance.OnClicked;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
+            @MiddleClick.started += instance.OnMiddleClick;
+            @MiddleClick.performed += instance.OnMiddleClick;
+            @MiddleClick.canceled += instance.OnMiddleClick;
         }
 
         private void UnregisterCallbacks(IStandardActions instance)
@@ -143,6 +195,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Clicked.started -= instance.OnClicked;
             @Clicked.performed -= instance.OnClicked;
             @Clicked.canceled -= instance.OnClicked;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
+            @MiddleClick.started -= instance.OnMiddleClick;
+            @MiddleClick.performed -= instance.OnMiddleClick;
+            @MiddleClick.canceled -= instance.OnMiddleClick;
         }
 
         public void RemoveCallbacks(IStandardActions instance)
@@ -163,5 +221,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IStandardActions
     {
         void OnClicked(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
+        void OnMiddleClick(InputAction.CallbackContext context);
     }
 }
