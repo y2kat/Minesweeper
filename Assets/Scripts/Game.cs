@@ -18,9 +18,17 @@ public class Game : MonoBehaviour
 
     public Timer timer;
 
-    public TextMeshProUGUI minesText; // Referencia al objeto de texto de la UI
+    public TextMeshProUGUI minesText;
     private int minesLeft; // Número de minas que quedan
 
+    public TextMeshProUGUI timerText; 
+    public TextMeshProUGUI highscoreText; // Referencia al objeto de texto del puntaje alto
+    public GameObject gameOverPanel; // Referencia al panel de fin de juego
+    private float timeElapsed; // Tiempo transcurrido en segundos
+    private bool timerRunning; // Indica si el temporizador está corriendo
+
+    private static float highscore = float.MaxValue;
+    private bool hasWon;
 
     private void OnValidate()
     {
@@ -39,6 +47,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         NewGame();
+        PlayerPrefs.DeleteKey("Highscore");
     }
 
     private void NewGame()
@@ -59,6 +68,12 @@ public class Game : MonoBehaviour
 
         minesLeft = mineCount;
         UpdateMinesText();
+
+        timer.StartTimer(); // Inicia el temporizador
+        timeElapsed = 0; // Reinicia el tiempo transcurrido
+        gameOverPanel.SetActive(false); // Oculta el panel de fin de juego
+
+        hasWon = false;
     }
 
     private void Update()
@@ -71,6 +86,8 @@ public class Game : MonoBehaviour
 
         if (!gameover)
         {
+            timeElapsed += Time.deltaTime;
+
             if (Input.GetMouseButtonDown(0)) {
                 Reveal();
             } else if (Input.GetMouseButtonDown(1)) {
@@ -80,6 +97,8 @@ public class Game : MonoBehaviour
             } else if (Input.GetMouseButtonUp(2)) {
                 Unchord();
             }
+
+            timerText.text = "Time: " + timeElapsed.ToString("0.00");
         }
     }
 
@@ -268,8 +287,6 @@ public class Game : MonoBehaviour
         Debug.Log("Game Over!");
         gameover = true;
 
-        timer.StopTimer();
-
         //establece la mina como explotada y revelada
         cell.exploded = true;
         cell.revealed = true;
@@ -285,6 +302,10 @@ public class Game : MonoBehaviour
                 }
             }
         }
+
+        timer.StopTimer(); // Detiene el temporizador
+        hasWon = false;
+        ShowGameOver();
     }
 
     private void UpdateMinesText()
@@ -326,11 +347,69 @@ public class Game : MonoBehaviour
 
         if (gameover)
         {
-            timer.StopTimer();
+            Debug.Log("Winner!");
+
+            timer.StopTimer(); // Detiene el temporizador
+
+            // Actualiza y guarda el puntaje más alto si el tiempo transcurrido es menor que el puntaje más alto actual
+            UpdateHighscore(); // Actualiza el puntaje más alto
+
+            hasWon = true;
+            ShowGameOver(); // Muestra el panel de fin de juego
         }
     }
 
+    private void ShowGameOver()
+    {
+        // Muestra el panel de fin de juego
+        gameOverPanel.SetActive(true);
+
+        if (hasWon)
+        {
+            Debug.Log("Winner!");
+        }
+        else
+        {
+            Debug.Log("Game Over!");
+        }
+
+        // Obtiene el puntaje más alto de PlayerPrefs
+        float highscore = PlayerPrefs.GetFloat("Highscore", float.MaxValue);
+
+        // Actualiza el texto del puntaje más alto en la interfaz de usuario
+        highscoreText.text = "Highscore: " + highscore.ToString("0.00");
+    }
+
+
+    private void UpdateHighscore()
+    {
+        // Obtiene el puntaje más alto de PlayerPrefs
+        float currentHighscore = PlayerPrefs.GetFloat("Highscore", float.MaxValue);
+
+        Debug.Log("Highscore antes de la comparación: " + currentHighscore);
+        Debug.Log("Tiempo transcurrido: " + timeElapsed);
+
+        if (timeElapsed < currentHighscore)
+        {
+            highscore = timeElapsed;
+            PlayerPrefs.SetFloat("Highscore", highscore);
+            PlayerPrefs.Save(); // Guarda los cambios en PlayerPrefs
+
+            Debug.Log("Nuevo highscore: " + highscore);
+        }
+
+        highscoreText.text = "Highscore: " + highscore.ToString("0.00");
+    }
+
+
+
+
     public void RestartGame()
+    {
+        NewGame();
+    }
+
+    public void Retry()
     {
         NewGame();
     }
