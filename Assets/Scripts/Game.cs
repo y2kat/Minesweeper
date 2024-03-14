@@ -376,9 +376,19 @@ public class Game : MonoBehaviour
         // Obtiene el puntaje más alto de PlayerPrefs
         float highscore = PlayerPrefs.GetFloat("Highscore", float.MaxValue);
 
-        // Actualiza el texto del puntaje más alto en la interfaz de usuario
-        highscoreText.text = "Highscore: " + highscore.ToString("0.00");
+        // Verifica si el puntaje más alto es igual a float.MaxValue
+        if (highscore == float.MaxValue)
+        {
+            // Si es igual a float.MaxValue, muestra un mensaje que indica que no hay un puntaje más alto aún
+            highscoreText.text = "Highscore: No highscore yet";
+        }
+        else
+        {
+            // Si no es igual a float.MaxValue, muestra el puntaje más alto
+            highscoreText.text = "Highscore: " + highscore.ToString("0.00");
+        }
     }
+
 
 
     private void UpdateHighscore()
