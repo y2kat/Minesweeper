@@ -14,6 +14,8 @@ public class Game : MonoBehaviour
     private bool gameover; // bandera que indica si el juego ha terminado
     private bool generated; // bandera que indica si el tablero de juego ha sido generado
 
+    public Timer timer;
+
     private void OnValidate()
     {
         mineCount = Mathf.Clamp(mineCount, 0, width * height); // asegura que el número de minas no exceda el número de celdas en el tablero
@@ -46,6 +48,8 @@ public class Game : MonoBehaviour
 
         grid = new CellGrid(width, height);
         board.Draw(grid);
+
+        timer.StartTimer();
     }
 
     private void Update()
@@ -252,6 +256,8 @@ public class Game : MonoBehaviour
         Debug.Log("Game Over!");
         gameover = true;
 
+        timer.StopTimer();
+
         //establece la mina como explotada y revelada
         cell.exploded = true;
         cell.revealed = true;
@@ -299,6 +305,16 @@ public class Game : MonoBehaviour
                 }
             }
         }
+
+        if (gameover)
+        {
+            timer.StopTimer();
+        }
+    }
+
+    public void RestartGame()
+    {
+        NewGame();
     }
 
     private bool TryGetCellAtMousePosition(out Cell cell) //parecido a lo que sucede con inputsystem
@@ -311,6 +327,6 @@ public class Game : MonoBehaviour
 
         //intenta obtener una celda en la posición de celda y devuelve el resultado
         return grid.TryGetCell(cellPosition.x, cellPosition.y, out cell);
-    }
+    } 
 
 }
