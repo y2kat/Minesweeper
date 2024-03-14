@@ -2385,9 +2385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb2b5a4aa725934b90d75aa5e87fa09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 4
-  height: 4
-  mineCount: 2
+  width: 8
+  height: 8
+  mineCount: 6
   timer: {fileID: 1150784103}
   minesText: {fileID: 624310116}
   timerText: {fileID: 484845818}
