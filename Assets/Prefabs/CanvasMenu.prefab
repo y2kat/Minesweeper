@@ -806,8 +806,8 @@ GameObject:
   - component: {fileID: 7768981321185462457}
   - component: {fileID: 5212730561780373534}
   - component: {fileID: 593228234820055569}
-  - component: {fileID: 5565687080283674232}
-  - component: {fileID: 1380990553161209113}
+  - component: {fileID: 2292316173572323387}
+  - component: {fileID: 3270284455607440162}
   m_Layer: 5
   m_Name: CanvasMenu
   m_TagString: Untagged
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5565687080283674232
+--- !u!114 &2292316173572323387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -909,12 +909,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2337961483628862783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98a45779b6d01cc458c18c570547f082, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b8984e366610ea4b9454c3333ebe415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 0}
-  menu: {fileID: 8688980909845333669}
---- !u!114 &1380990553161209113
+  menu: {fileID: 0}
+--- !u!114 &3270284455607440162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -923,13 +923,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2337961483628862783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cff898be9ee21643a897d6b265f710f, type: 3}
+  m_Script: {fileID: 11500000, guid: bcba29f7958ff284e878bb53a1579d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panels:
-  - {fileID: 8688980909845333669}
-  - {fileID: 6800545229322453881}
-  - {fileID: 5785827988679663245}
+  panels: []
 --- !u!1 &3081384464690252595
 GameObject:
   m_ObjectHideFlags: 0
