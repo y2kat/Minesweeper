@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 // https://www.youtube.com/watch?v=HBrF8LJ0Hfg
 //https://www.youtube.com/watch?v=wAJyWmyA0ug
@@ -15,6 +17,10 @@ public class Game : MonoBehaviour
     private bool generated; // bandera que indica si el tablero de juego ha sido generado
 
     public Timer timer;
+
+    public TextMeshProUGUI minesText; // Referencia al objeto de texto de la UI
+    private int minesLeft; // Número de minas que quedan
+
 
     private void OnValidate()
     {
@@ -50,6 +56,9 @@ public class Game : MonoBehaviour
         board.Draw(grid);
 
         timer.StartTimer();
+
+        minesLeft = mineCount;
+        UpdateMinesText();
     }
 
     private void Update()
@@ -164,6 +173,9 @@ public class Game : MonoBehaviour
         // cambia el estado de marcado de la celda (si estaba marcada, la desmarca; si no estaba marcada, la marca)
         cell.flagged = !cell.flagged;
 
+        minesLeft += cell.flagged ? -1 : 1;
+        UpdateMinesText();
+
         //dibuja el tablero con las celdas actualizadas
         board.Draw(grid);
     }
@@ -273,6 +285,12 @@ public class Game : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void UpdateMinesText()
+    {
+        // Actualiza el texto de la UI para mostrar el número de minas que quedan
+        minesText.text = "Flags: " + minesLeft;
     }
 
     private void CheckWinCondition()
