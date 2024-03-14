@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// https://www.youtube.com/watch?v=HBrF8LJ0Hfg
+//https://www.youtube.com/watch?v=wAJyWmyA0ug
 public class Cell
 {
     public enum Type //determina qué tipo de mina es:

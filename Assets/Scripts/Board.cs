@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+// https://www.youtube.com/watch?v=HBrF8LJ0Hfg
+//https://www.youtube.com/watch?v=wAJyWmyA0ug
 [RequireComponent(typeof(Tilemap))] //asegura que el objeto al que se adjunta este script tenga un componente Tilemap
 public class Board : MonoBehaviour
 {

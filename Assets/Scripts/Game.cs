@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+// https://www.youtube.com/watch?v=HBrF8LJ0Hfg
+//https://www.youtube.com/watch?v=wAJyWmyA0ug
 public class Game : MonoBehaviour
 {
     public int width = 16; 
